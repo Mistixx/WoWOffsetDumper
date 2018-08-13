@@ -4,6 +4,21 @@ Automatically dumps offsets and descriptors for World of Warcraft BfA.
 
 [Original Ownedcore thread](https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/681491-c-descriptors-dumper-find-descriptor-offsets.html)
 
+## Known Bugs
+
+* CGContainerData gets the wrong offset, it starts at NumSlots instead of Slots. This will be fixed with updated FindPattern and FindPatternAll.
+
+## Todo
+
+* Convert functions into a single class and split up the code.
+* Make code more readable.
+* Add capstone.
+* Update FindPattern and FindPatternAll to use disassembler (capstone) for improved/easier usage.
+
+## Tested Patches
+
+8.0.1.27326
+
 ## Getting Started
 
 Open in Visual Studio 2017 and build.
