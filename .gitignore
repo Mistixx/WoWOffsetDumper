@@ -1,0 +1,81 @@
+#
+# NOTE! Don't add files that are generated in specific
+# subdirectories here. Add them in the ".gitignore" file
+# in that subdirectory instead.
+#
+# NOTE! Please use 'git-ls-files -i --exclude-standard'
+# command after changing this file, to see if there are
+# any tracked files which get ignored after the change.
+
+# Placeholder files for directories needed to be inside git but empty
+!.gitignore
+!.gitattributes
+!.travis.yml
+
+# JetBrains - project settings
+/.idea/
+
+# Eclipse - project settings
+/.project
+/.settings
+/.buildpath
+/.externalToolBuilders
+
+# Sublime Text 2 - project files
+/*.sublime-build
+/*.sublime-project
+/*.sublime-workspace
+
+# Numerous always-ignore extensions
+*.a
+*.bak
+*.bin
+*.diff
+*.err
+*.gz
+*.lo
+*.log
+*.o
+*.o.*
+*.orig
+*.patch
+*.rej
+*.so
+*.so.dbg
+*.swo
+*.swp
+*.vi
+*~
+callgrind.out.*
+
+# OS or Editor folders
+.DS_Store
+.cache
+.project
+.settings
+.tmproj
+nbproject
+Thumbs.db
+
+# Visual Studio 2017
+.vs/
+
+# Configuration files to be customized
+
+# Build directories
+/bin/
+_build
+build
+
+# Generated files
+*.ncb
+*.opensdf
+*.sdf
+*.sln.cache
+*.suo
+*.user
+*.vsp
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+ipch
