@@ -2,6 +2,8 @@
 
 Automatically dumps offsets and descriptors for World of Warcraft BfA.
 
+[Original Ownedcore thread](https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/681491-c-descriptors-dumper-find-descriptor-offsets.html)
+
 ## Getting Started
 
 Open in Visual Studio 2017 and build.
