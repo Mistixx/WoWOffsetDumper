@@ -8,8 +8,8 @@ Open in Visual Studio 2017 and build.
 
 ### Prerequisites
 
-[Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
-World of Warcraft (duh)
+* [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
+* World of Warcraft (duh)
 
 ## License
 
