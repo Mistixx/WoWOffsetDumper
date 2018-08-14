@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/4dmj8hsn04v92txm/branch/master?svg=true)](https://ci.appveyor.com/project/ejt1/wowoffsetdumper/branch/master)
+
 # WoWOffsetDumper
 
 Automatically dumps offsets and descriptors for World of Warcraft BfA.

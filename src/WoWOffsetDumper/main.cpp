@@ -1,5 +1,6 @@
 #include "Common.hpp"
 #include "Dumper.hpp"
+
 #include "capstone/capstone.h"
 
 #include <iostream>
