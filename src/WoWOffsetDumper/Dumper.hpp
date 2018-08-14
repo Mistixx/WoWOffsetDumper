@@ -57,7 +57,18 @@ static std::list<OffsetPattern> offsetPatterns
 {
 	{ "ObjectMgrPtr", "4C 8B 05 ? ? ? ? 48 8B F2 48 8B", SignatureType::NORMAL, 0x3, 0x0 },
 	{ "NameCacheBase", "? ? ? ? BA 10 00 00 00 48 83 C8 01 48 8D 0D ? ? ? ? 48 89 05 ? ? ? ? E8 ? ? ? ? 33 C9 C7 05 ? ? ? ? FF FF FF FF", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "CooldownPtr", "48 8D 05 ? ? ? ? 48  83 C8 01 48 8D 0D ? ? ? ? 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48", SignatureType::NORMAL, 0x3, 0x0 }
+	{ "CooldownPtr", "48 8D 05 ? ? ? ? 48  83 C8 01 48 8D 0D ? ? ? ? 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "LastHardwareAction", "4C 8D 05 ? ? ? ? 44 8B 25 ? ? ? ? 4C", SignatureType::NORMAL, 0xA, 0x0 },
+	{ "LocalPlayerGUID", "48 8D 05 ? ? ? ? 41 B8 03 00 00 00 0F 1F 00", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "CameraBase", "48 8B 05 ? ? ? ? 48 8B 88 ? ? 00 00 48 8B 43 ?", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "ZoneID", "44 3B 2D ? ? ? ? 44 8B 44 24 40 8B 54 24 48", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "IsTexting", "44 39 25 ? ? ? ? 0F 8E DF 00 00 00 33 D2 44 89 64 24 20", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "ActionBarFirstSlot", "48 8D 15 ? ? ? ? 48 63 C8 48 B8 00 00 00 00", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "MouseOverGUID", "BA 01 00 00 00 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 85 C0 74 12", SignatureType::NORMAL, 0x8, 0x0 },
+	{ "ClickToMoveTrigger", "48 63 05 ? ? ? ? 48 8D 0C 40 48 8D 05", SignatureType::NORMAL, 0x3, 0x0 },
+	{ "GameVersion", "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8", SignatureType::NORMAL, 0x9, 0x0 },
+	{ "GameBuild", "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8", SignatureType::NORMAL, 0x18, 0x0 },
+	{ "GameReleaseDate", "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8 ? ? ? ? 48 8D 15 ? ? ? ?", SignatureType::NORMAL, 0x27, 0x0 },
 	// Player name = 33 C0 48 8D 0D ? ? ? ? 38 05 ? ? ? ? 48 0F 45 C1 C3
 	// Matches two functions, one is unknown the other contain playername offset
 };
