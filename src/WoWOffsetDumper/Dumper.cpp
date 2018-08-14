@@ -100,9 +100,9 @@ void Dumper::DumpDescriptors(std::list<DescriptorStruct> offsets)
 				memberName[0] = std::toupper(memberName[0], std::locale());
 
 			if (!baseDescriptors[currentPrefix].empty())
-				f << "	" << memberName << " = " << baseDescriptors[currentPrefix] << " + " << i << ", // size " << d.Size << " flags: " << MirrorFlags[d.Flags] << std::endl;
+				f << "	" << currentPrefix << "_" << memberName << " = " << baseDescriptors[currentPrefix] << " + " << i << ", // size " << d.Size << " flags: " << MirrorFlags[d.Flags] << std::endl;
 			else
-				f << "	" << memberName << " = " << i << ", // size " << d.Size << std::endl;
+				f << "	" << currentPrefix << "_" << memberName << " = " << i << ", // size " << d.Size << std::endl;
 
 			if (isDynamic)
 				i += 1;
