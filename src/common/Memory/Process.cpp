@@ -146,7 +146,7 @@ uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr pa
 	return FindPattern(pattern, type, patternOffset, addressOffset, GetBaseAddress(), GetBaseSize());
 }
 
-uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, const char* mnemonic = "")
+uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, const char* mnemonic)
 {
 	int64 size = GetFirstMnemonic(start, mnemonic) - start;
 
@@ -189,7 +189,7 @@ std::list<uintptr> Process::FindPatternAll(const char* pattern, SignatureType ty
 	uintptr addr = 0;
 	int64 size = GetFirstMnemonic(start, mnemonic) - start;
 
-	while ((addr = FindPattern(pattern, type, patternOffset, addressOffset, start, size)) > 0 && size > 0)
+	while (size > 0 && (addr = FindPattern(pattern, type, patternOffset, addressOffset, start, size)) > 0)
 	{
 		ret.push_back(addr);
 
@@ -204,7 +204,7 @@ uintptr Process::GetFirstMnemonic(uintptr start, const char* mnemonic)
 {
 	uintptr ret = 0;
 	csh handle;
-	size_t count = 0x1000;
+	size_t count = 0x4000;
 	uint64 address = start;
 
 	uint8* bytes = new uint8[count];
