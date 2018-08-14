@@ -27,6 +27,7 @@ Open in Visual Studio 2017 and build.
 ### Prerequisites
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
+* [CMake (x64)](https://cmake.org/download/)
 * World of Warcraft (duh)
 
 ## License
