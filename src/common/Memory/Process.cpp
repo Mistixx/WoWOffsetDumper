@@ -146,17 +146,25 @@ uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr pa
 	return FindPattern(pattern, type, patternOffset, addressOffset, GetBaseAddress(), GetBaseSize());
 }
 
+uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, const char* mnemonic = "")
+{
+	int64 size = GetFirstMnemonic(start, mnemonic) - start;
+
+	return FindPattern(pattern, type, patternOffset, addressOffset, start, size);
+}
+
 uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, uint64 size)
 {
 	std::vector<uint8> bytes;
 	uint64 base = start;
-	uint64 max = size;
-	bytes.resize(max);
+	uint64 length = size;
 
-	Read(base, max, bytes.data());
+	bytes.resize(length);
+
+	Read(base, length, bytes.data());
 	uint8* pb = reinterpret_cast<uint8*>(bytes.data());
 
-	for (auto off = 0UL; off < max; ++off)
+	for (auto off = 0UL; off < length; ++off)
 	{
 		if (CompareBytes(pb + off, pattern))
 		{
@@ -175,36 +183,51 @@ uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr pa
 	return 0;
 }
 
-std::list<uintptr> Process::FindPatternAll(const char * pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, uint8 endByte)
+std::list<uintptr> Process::FindPatternAll(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, const char* mnemonic)
 {
 	std::list<uintptr> ret;
-	std::vector<uint8> bytes;
-	uint64 base = start;
-	uint64 min = 16;
-	uint64 max = 1024;
-	bytes.resize(max);
+	uintptr addr = 0;
+	int64 size = GetFirstMnemonic(start, mnemonic) - start;
 
-	Read(base, max, bytes.data());
-	uint8* pb = reinterpret_cast<uint8*>(bytes.data());
-
-	for (auto off = 0UL; off < max; ++off)
+	while ((addr = FindPattern(pattern, type, patternOffset, addressOffset, start, size)) > 0 && size > 0)
 	{
-		if (*(pb + off) == endByte && off > min)
-			break;
+		ret.push_back(addr);
 
-		if (CompareBytes(pb + off, pattern))
+		size -= addr - start + 1;
+		start = addr + 1;
+	}
+
+	return ret;
+}
+
+uintptr Process::GetFirstMnemonic(uintptr start, const char* mnemonic)
+{
+	uintptr ret = 0;
+	csh handle;
+	size_t count = 0x1000;
+	uint64 address = start;
+
+	uint8* bytes = new uint8[count];
+	Read(start, count, bytes);
+	const uint8* cbytes = bytes;
+
+	if (cs_open(CS_ARCH_X86, CS_MODE_64, &handle) != CS_ERR_OK)
+		return 0;
+
+	cs_insn *insn = cs_malloc(handle);
+
+	while (cs_disasm_iter(handle, &cbytes, &count, &address, insn))
+	{
+		if (strcmp(insn->mnemonic, mnemonic) == 0)
 		{
-			uint64 add = base + off + patternOffset;
-
-			if (type & SignatureType::READ)
-				add = Read<uintptr>(add);
-
-			if (type & SignatureType::SUBTRACT)
-				add -= base;
-
-			ret.push_back(add + addressOffset);
+			ret = insn->address;
+			break;
 		}
 	}
+
+	cs_free(insn, 1);
+	delete[] bytes;
+	cs_close(&handle);
 
 	return ret;
 }

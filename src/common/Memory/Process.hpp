@@ -2,6 +2,8 @@
 
 #include "Common.hpp"
 
+#include "capstone/capstone.h"
+#include <cassert>
 #include <fstream>
 #include <TlHelp32.h>
 
@@ -65,8 +67,11 @@ public:
 	// Inspired by https://github.com/Y3t1y3t/CSGO-Dumper/blob/master/Dumper/src/Remote/Remote.cpp
 	bool CompareBytes(const uchar* bytes, const char* pattern);
 	uintptr FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset);
+	uintptr FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, const char* mnemonic = "");
 	uintptr FindPattern(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, uint64 size);
-	std::list<uintptr> FindPatternAll(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, uint8 endByte);
+	std::list<uintptr> FindPatternAll(const char* pattern, SignatureType type, uintptr patternOffset, uintptr addressOffset, uint64 start, const char* mnemonic);
+
+	uintptr GetFirstMnemonic(uintptr start, const char* mnemonic);
 
 	uint64 GetModuleAddress(const std::string& moduleName);
 

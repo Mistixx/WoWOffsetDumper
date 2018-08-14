@@ -12,14 +12,12 @@ add_executable(WoWOffsetDumper
 target_include_directories(WoWOffsetDumper
     PUBLIC
         ${PUBLIC_INCLUDES}
-		"${PROJECT_SOURCE_DIR}/deps/capstone/include/"
     PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(WoWOffsetDumper
     PUBLIC
-        common
-		capstone-static)
+        common)
 
 if (WIN32)
     install(TARGETS WoWOffsetDumper DESTINATION "${CMAKE_INSTALL_PREFIX}")
