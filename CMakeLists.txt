@@ -6,4 +6,5 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/macros")
 
 include(AutoCollect)
 
+add_subdirectory(deps)
 add_subdirectory(src)

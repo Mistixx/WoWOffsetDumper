@@ -10,9 +10,9 @@ Automatically dumps offsets and descriptors for World of Warcraft BfA.
 
 ## Todo
 
-* Convert functions into a single class and split up the code.
+* Convert functions into a single class and split up the code. (Partially done)
 * Make code more readable.
-* Add capstone.
+* ~~Add capstone.~~
 * Update FindPattern and FindPatternAll to use disassembler (capstone) for improved/easier usage.
 
 ## Tested Patches
