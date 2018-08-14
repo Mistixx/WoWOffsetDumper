@@ -27,6 +27,28 @@ void Dumper::Dump()
 
 	std::map<std::string, uintptr> offsets = GetOffsets();
 
+	std::ofstream f("offsets.txt", std::ios::trunc);
+	f << "#pragma once" << std::endl << std::endl;
+	f << "// " << ReadString(offsets["GameVersion"]) << "." << ReadString(offsets["GameBuild"]) << std::endl;
+	f << "enum class Offsets" << std::endl << "{" << std::endl;
+
+	f << "\tObjectMgrPtr = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ObjectMgrPtr"] << "," << std::endl;
+	f << "\tNameCacheBase = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["NameCacheBase"] << "," << std::endl;
+	f << "\tCooldownPtr = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["CooldownPtr"] << "," << std::endl;
+	f << "\tLastHardwareAction = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["LastHardwareAction"] << "," << std::endl;
+	f << "\tLocalPlayerGUID = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["LocalPlayerGUID"] << "," << std::endl;
+	f << "\tCameraBase = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["CameraBase"] << "," << std::endl;
+	f << "\tZoneID = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ZoneID"] << "," << std::endl;
+	f << "\tIsTexting = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["IsTexting"] << "," << std::endl;
+	f << "\tActionBarFirstSlot = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ActionBarFirstSlot"] << "," << std::endl;
+	f << "\tMouseOverGUID = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["MouseOverGUID"] << "," << std::endl;
+	f << "\tClickToMoveTrigger = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ClickToMoveTrigger"] << "," << std::endl;
+	f << "\tGameVersion = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameVersion"] << "," << std::endl;
+	f << "\tGameBuild = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameBuild"] << "," << std::endl;
+	f << "\tGameReleaseDate = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameReleaseDate"] << "," << std::endl;
+
+	f << "};" << std::endl << std::endl;
+
 	for (auto it : offsets)
 	{
 		std::cout << it.first << " = 0x" << std::hex << std::setfill('\0') << std::uppercase << it.second << std::endl;
@@ -35,6 +57,16 @@ void Dumper::Dump()
 	std::cout << std::endl;
 
 	std::map<std::string, uintptr> funcOffs = GetFunctionOffsets();
+
+	f << "enum class FunctionOffsets" << std::endl << "{" << std::endl;
+	f << "\tMoveTo = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["MoveTo"] << "," << std::endl;
+	f << "\tInteract = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Interact"] << "," << std::endl;
+	f << "\tFrameScript_ExecuteBuffer = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_ExecuteBuffer"] << "," << std::endl;
+	f << "\tFrameScript_GetLocalizedText = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_GetLocalizedText"] << "," << std::endl;
+	f << "\tFrameScript_GetText = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_GetText"] << "," << std::endl;
+	f << "\tSpell_C_HandleTerrainClick = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_C_HandleTerrainClick"] << "," << std::endl;
+
+	f << "};";
 
 	for (auto it : funcOffs)
 	{
