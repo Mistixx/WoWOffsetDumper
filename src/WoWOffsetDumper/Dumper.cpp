@@ -17,7 +17,7 @@ void Dumper::Dump()
 
 	for (auto it : descOffsets)
 	{
-		std::cout << "0x" << std::hex << std::setfill('\0') << it.Offsets.front();
+		std::cout << "0x" << std::hex << std::setfill('\0') << std::uppercase << it.Offsets.front();
 		std::cout << " " << ReadString(Read<uint64>(it.Offsets.front()), 255, true) << std::endl;
 	}
 
@@ -29,7 +29,7 @@ void Dumper::Dump()
 
 	for (auto it : offsets)
 	{
-		std::cout << it.first << " = 0x" << std::hex << std::setfill('\0') << it.second << std::endl;
+		std::cout << it.first << " = 0x" << std::hex << std::setfill('\0') << std::uppercase << it.second << std::endl;
 	}
 
 	std::cout << std::endl;
@@ -38,7 +38,7 @@ void Dumper::Dump()
 
 	for (auto it : funcOffs)
 	{
-		std::cout << it.first << " = 0x" << std::hex << std::setfill('\0') << it.second << std::endl;
+		std::cout << it.first << " = 0x" << std::hex << std::setfill('\0') << std::uppercase << it.second << std::endl;
 	}
 
 	std::cout << std::endl;
