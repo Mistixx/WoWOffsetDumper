@@ -5,6 +5,8 @@
 #include "Memory/Process.hpp"
 #include "MirrorFlags.hpp"
 
+#include "capstone/capstone.h"
+
 #include <iostream>
 #include <regex>
 
@@ -18,54 +20,27 @@ struct Descriptor
 	uint64 Flags;
 };
 
-// This is a map because non-dynamic descriptor struct is 18 bytes in size while
-// dynamic descriptor struct is 10 bytes in size so the boolean is telling us if its dynamic or not
-// 8.0.1.27326
-static std::map<int32, bool> descriptors
-{
-	{ 0x2735250, false }, // CGObjectData
-	{ 0x27368C0, false }, // CGUnitData
-	{ 0x2737C10, true }, // CGUnitDynamicData
-	{ 0x2741910, false }, // CGActivePlayerData
-	{ 0x2758F40, true }, // CGActivePlayerDynamicData
-	{ 0x2735310, false }, // CGItemData
-	{ 0x27359F0, true }, // CGItemDynamicData
-	{ 0x2737C40, false }, // CGPlayerData
-	{ 0x2741900, true }, // CGPlayerDynamicData
-	{ 0x2759030, false }, // CGGameObjectData
-	{ 0x27592A0, true }, // CGGameObjectDynamicData
-	{ 0x27592B0, false }, // CGDynamicObjectData
-	{ 0x2735A30, false }, // CGContainerData
-	{ 0x2759390, false }, // CGCorpseData
-	{ 0x2759870, false }, // CGAreaTriggerData
-	{ 0x27352F8, false }, // CGConversationData
-	{ 0x2759AB8, true }, // CGConversationDynamicData
-	{ 0x27367D0, false }, // CGAzeriteEmpoweredData
-	{ 0x2736830, false }, // CGAzeriteItemData
-	{ 0x2759A10, false }, // CGSceneObjectData
-};
-
 static std::map<std::string, std::string> baseDescriptors
 {
 	{ "CGObjectData",				"" },
 	{ "CGUnitData",					"CGObjectDataEnd" },
-	{ "CGUnitDynamicData",			"CGDynamicObjectDataEnd" },
+	{ "CGUnitDynamicData",			"CGObjectDataEnd" },
 	{ "CGActivePlayerData",			"CGPlayerDataEnd" },
-	{ "CGActivePlayerDynamicData",	"CGDynamicObjectDataEnd" },
+	{ "CGActivePlayerDynamicData",	"CGObjectDataEnd" },
 	{ "CGItemData",					"CGObjectDataEnd" },
-	{ "CGItemDynamicData",			"CGDynamicObjectDataEnd" },
+	{ "CGItemDynamicData",			"CGObjectDataEnd" },
 	{ "CGPlayerData",				"CGUnitDataEnd" },
-	{ "CGPlayerDynamicData",		"CGUnitDynamicDataEnd" },
+	{ "CGPlayerDynamicData",		"CGObjectDataEnd" },
 	{ "CGGameObjectData",			"CGObjectDataEnd" },
-	{ "CGGameObjectDynamicData",	"CGDynamicObjectDataEnd" },
+	{ "CGGameObjectDynamicData",	"CGObjectDataEnd" },
 	{ "CGDynamicObjectData",		"CGObjectDataEnd" },
 	{ "CGContainerData",			"CGItemDataEnd" },
 	{ "CGCorpseData",				"CGObjectDataEnd" },
 	{ "CGAreaTriggerData",			"CGObjectDataEnd" },
 	{ "CGConversationData",			"CGObjectDataEnd" },
-	{ "CGConversationDynamicData",	"CGDynamicObjectDataEnd" },
-	{ "CGAzeriteEmpoweredData",		"CGObjectDataEnd" },
-	{ "CGAzeriteItemData",			"CGObjectDataEnd" },
+	{ "CGConversationDynamicData",	"CGObjectDataEnd" },
+	{ "CGAzeriteEmpoweredData",		"CGItemDataEnd" },
+	{ "CGAzeriteItemData",			"CGItemDataEnd" },
 	{ "CGSceneObjectData",			"CGObjectDataEnd" },
 };
 
@@ -87,6 +62,12 @@ static std::list<OffsetPattern> offsetPatterns
 	// Matches two functions, one is unknown the other contain playername offset
 };
 
+struct DescriptorStruct
+{
+	std::vector<uintptr> Offsets;
+	bool IsDynamic;
+};
+
 class Dumper : public MemoryObject
 {
 public:
@@ -95,12 +76,12 @@ public:
 	~Dumper();
 
 	void Dump();
+	void DumpDescriptors(std::list<DescriptorStruct> offsets);
 
 private:
 	std::map<std::string, uintptr> GetOffsets();
-	std::list<uintptr> GetDescriptorOffsets();
-
-	void DumpDescriptors();
+	std::list<DescriptorStruct> GetDescriptorOffsets();
+	std::list<uintptr> GetDescriptorInitFuncs();
 	
 private:
 	ProcessPtr m_Process;
