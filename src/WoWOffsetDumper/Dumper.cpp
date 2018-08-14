@@ -33,6 +33,15 @@ void Dumper::Dump()
 	}
 
 	std::cout << std::endl;
+
+	std::map<std::string, uintptr> funcOffs = GetFunctionOffsets();
+
+	for (auto it : funcOffs)
+	{
+		std::cout << it.first << " = 0x" << std::hex << std::setfill('\0') << it.second << std::endl;
+	}
+
+	std::cout << std::endl;
 }
 
 void Dumper::DumpDescriptors(std::list<DescriptorStruct> offsets)
@@ -135,6 +144,22 @@ std::map<std::string, uintptr> Dumper::GetOffsets()
 		uintptr base = m_Process->FindPattern(op.Pattern.c_str(), op.SigType, op.PatternOffset, op.AddressOffset);
 		uint32 rel = m_Process->Read<uint32>(base);
 		uintptr real = (base + rel + 4) - m_Process->GetBaseAddress();
+
+		ret[op.Variable] = real;
+	}
+
+	return ret;
+}
+
+std::map<std::string, uintptr> Dumper::GetFunctionOffsets()
+{
+	std::map<std::string, uintptr> ret;
+
+	for (auto op : funcPatterns)
+	{
+		uintptr base = m_Process->FindPattern(op.Pattern.c_str(), op.SigType, op.PatternOffset, op.AddressOffset);
+		//uint32 rel = m_Process->Read<uint32>(base);
+		uintptr real = base - m_Process->GetBaseAddress();
 
 		ret[op.Variable] = real;
 	}

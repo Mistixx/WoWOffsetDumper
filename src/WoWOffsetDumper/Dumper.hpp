@@ -62,6 +62,16 @@ static std::list<OffsetPattern> offsetPatterns
 	// Matches two functions, one is unknown the other contain playername offset
 };
 
+static std::list<OffsetPattern> funcPatterns
+{
+	{ "MoveTo", "48 83 EC 48 48 8B 81 88 01 00 00 48 83 B8 C0 00 00 00 00 7E 58", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Interact", "40 57 48 83 EC 20 48 8B F9 E8 ? ? ? ? 48 85 C0 75 0B", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "FrameScript_ExecuteBuffer", "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 70 83 05 ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "FrameScript_GetLocalizedText", "0F B6 41 20 4C 8B DA 48 8D 15 ? ? ? ? 45 8B D0", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "FrameScript_GetText", "40 55 57 41 54 41 56 41 57 48 83 EC 20 48 8D 6C 24 20 4C 8B F9 48 89 5D 38 8B 0D ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Spell_C_HandleTerrainClick", "40 53 48 83 EC 30 B2 01 48 8B D9 E8 ? ? 00 00 85 C0", SignatureType::NORMAL, 0x0, 0x0 }
+};
+
 struct DescriptorStruct
 {
 	std::vector<uintptr> Offsets;
@@ -80,6 +90,7 @@ public:
 
 private:
 	std::map<std::string, uintptr> GetOffsets();
+	std::map<std::string, uintptr> GetFunctionOffsets();
 	std::list<DescriptorStruct> GetDescriptorOffsets();
 	std::list<uintptr> GetDescriptorInitFuncs();
 	
