@@ -117,7 +117,7 @@ void Dumper::DumpDescriptors(std::list<DescriptorStruct> offsets)
 			else
 				f << "	" << currentPrefix << "End = " << i << std::endl;
 
-			f << "}" << std::endl;
+			f << "};" << std::endl;
 		}
 
 		currentPrefix.clear();
