@@ -6,14 +6,16 @@ Automatically dumps offsets and descriptors for World of Warcraft BfA.
 
 ## Known Bugs
 
-* CGContainerData gets the wrong offset, it starts at NumSlots instead of Slots. This will be fixed with updated FindPattern and FindPatternAll.
+* ~~CGContainerData gets the wrong offset, it starts at NumSlots instead of Slots. This will be fixed with updated FindPattern and FindPatternAll.~~
 
 ## Todo
 
-* Convert functions into a single class and split up the code. (Partially done)
-* Make code more readable.
+* ~~Convert functions into a single class and split up the code.~~
+* ~~Make code more readable.~~?
 * ~~Add capstone.~~
-* Update FindPattern and FindPatternAll to use disassembler (capstone) for improved/easier usage.
+* ~~Update FindPattern and FindPatternAll to use disassembler (capstone) for improved/easier usage.~~
+* Do a technical write-up on how the automatic updating of offsets and descriptors work.
+* Rewrite the guide on how to manually get offsets and put it here on GitLab.
 
 ## Tested Patches
 
