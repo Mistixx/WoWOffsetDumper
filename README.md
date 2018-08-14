@@ -17,6 +17,7 @@ Automatically dumps offsets and descriptors for World of Warcraft BfA.
 
 ## Tested Patches
 
+8.0.1.27356
 8.0.1.27326
 
 ## Getting Started
