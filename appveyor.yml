@@ -35,11 +35,12 @@ build:
   project: c:\projects\cmake-init\build\WoWOffsetDumper.sln
   verbosity: minimal
   parallel: true
-only_commits:
-  files:
-    - CMakeLists.txt
-	- CMakeSettings.json
-    - appveyor.yml
-	- cmake/
-	- deps/
-    - src/
+# Github only!
+#only_commits:
+#  files:
+#    - CMakeLists.txt
+#	- CMakeSettings.json
+#    - appveyor.yml
+#	- cmake/
+#	- deps/
+#    - src/
