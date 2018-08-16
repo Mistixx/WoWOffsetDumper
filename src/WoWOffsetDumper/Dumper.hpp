@@ -69,6 +69,8 @@ static std::list<OffsetPattern> offsetPatterns
 	{ "GameVersion", "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8", SignatureType::NORMAL, 0x9, 0x0 },
 	{ "GameBuild", "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8", SignatureType::NORMAL, 0x18, 0x0 },
 	{ "GameReleaseDate", "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8 ? ? ? ? 48 8D 15 ? ? ? ?", SignatureType::NORMAL, 0x27, 0x0 },
+	{ "InGameFlag", "48 83 EC 28 0F B6 15 ? ? ? ? C1 EA 02 83 E2 01", SignatureType::NORMAL, 0x7, 0x0 },
+	{ "IsLoadingOrConnecting", "48 81 EC A8 00 00 00 8B 05 ? ? ? ? FF C8", SignatureType::NORMAL, 0x9, 0x0 }
 	// Player name = 33 C0 48 8D 0D ? ? ? ? 38 05 ? ? ? ? 48 0F 45 C1 C3
 	// Matches two functions, one is unknown the other contain playername offset
 };

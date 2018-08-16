@@ -46,6 +46,8 @@ void Dumper::Dump()
 	f << "\tGameVersion = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameVersion"] << "," << std::endl;
 	f << "\tGameBuild = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameBuild"] << "," << std::endl;
 	f << "\tGameReleaseDate = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameReleaseDate"] << "," << std::endl;
+	f << "\tInGameFlag = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["InGameFlag"] << "," << std::endl;
+	f << "\tIsLoadingOrConnecting = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["IsLoadingOrConnecting"] << "," << std::endl;
 
 	f << "};" << std::endl << std::endl;
 
