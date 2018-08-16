@@ -6,6 +6,11 @@ Automatically dumps offsets and descriptors for World of Warcraft BfA.
 
 [Original Ownedcore thread](https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/681491-c-descriptors-dumper-find-descriptor-offsets.html)
 
+## Disclaimer
+
+This program to reads the memory of World of Warcraft, therefore it is possible, although unlikely that Blizzard could detect and ban for the usage of this software. NEVER USE THIS SOFTWARE WHILE LOGGED INTO YOUR MAIN ACCOUNT.<br />
+You have been warned.
+
 ## Known Bugs
 
 * ~~CGContainerData gets the wrong offset, it starts at NumSlots instead of Slots. This will be fixed with updated FindPattern and FindPatternAll.~~
