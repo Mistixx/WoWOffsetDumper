@@ -7,7 +7,6 @@ image:
 - Visual Studio 2017
 configuration:
 - Release
-- Debug
 platform:
 - x64
 environment:
@@ -36,9 +35,11 @@ build:
   project: c:\projects\cmake-init\build\WoWOffsetDumper.sln
   verbosity: minimal
   parallel: true
-#only_commits:
-#  files:
-#    - CMakeLists.txt
-#    - appveyor.yml
-#    - source/
-#	- cmake/
+only_commits:
+  files:
+    - CMakeLists.txt
+	- CMakeSettings.json
+    - appveyor.yml
+	- cmake/
+	- deps/
+    - src/
