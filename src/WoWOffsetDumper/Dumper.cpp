@@ -61,12 +61,17 @@ void Dumper::Dump()
 	std::map<std::string, uintptr> funcOffs = GetFunctionOffsets();
 
 	f << "enum class FunctionOffsets" << std::endl << "{" << std::endl;
+
 	f << "\tMoveTo = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["MoveTo"] << "," << std::endl;
 	f << "\tInteract = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Interact"] << "," << std::endl;
 	f << "\tFrameScript_ExecuteBuffer = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_ExecuteBuffer"] << "," << std::endl;
 	f << "\tFrameScript_GetLocalizedText = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_GetLocalizedText"] << "," << std::endl;
 	f << "\tFrameScript_GetText = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_GetText"] << "," << std::endl;
-	f << "\tSpell_C_HandleTerrainClick = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_C_HandleTerrainClick"] << "," << std::endl;
+	f << "\tSpell_GetSpellCooldown = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_GetSpellCooldown"] << "," << std::endl;
+	f << "\tSpell_HandleTerrainClick = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_HandleTerrainClick"] << "," << std::endl;
+	f << "\tSpell_CheckInRange = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_CheckInRange"] << "," << std::endl;
+	f << "\tUnit_IsFriendly = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Unit_IsFriendly"] << "," << std::endl;
+	f << "\tWorldFrame_Intersect = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["WorldFrame_Intersect"] << "," << std::endl;
 
 	f << "};";
 

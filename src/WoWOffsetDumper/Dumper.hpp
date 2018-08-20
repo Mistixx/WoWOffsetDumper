@@ -82,7 +82,11 @@ static std::list<OffsetPattern> funcPatterns
 	{ "FrameScript_ExecuteBuffer", "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 70 83 05 ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "FrameScript_GetLocalizedText", "0F B6 41 20 4C 8B DA 48 8D 15 ? ? ? ? 45 8B D0", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "FrameScript_GetText", "40 55 57 41 54 41 56 41 57 48 83 EC 20 48 8D 6C 24 20 4C 8B F9 48 89 5D 38 8B 0D ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "Spell_C_HandleTerrainClick", "40 53 48 83 EC 30 B2 01 48 8B D9 E8 ? ? 00 00 85 C0", SignatureType::NORMAL, 0x0, 0x0 }
+	{ "Spell_GetSpellCooldown", "48 83 EC 58 44 8B D1 C6 44 24 48 00 F7 DA 48 8D 05 ? ? ? ? 41 8B D2 48 1B C9 81 E1 B8 00 00", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Spell_HandleTerrainClick", "40 53 48 83 EC 30 B2 01 48 8B D9 E8 ? ? 00 00 85 C0", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Spell_CheckInRange", "4C 89 4C 24 20 55 41 54 41 55 48 81 EC 90 00 00 00 49 8B 40 08 4D 8B D0 48 C1 E8 3A 44 8B EA 4C", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Unit_IsFriendly", "48 89 5C 24 08 57 48 83 EC 20 48 8B DA 48 8B F9 E8 ? ? ? ? 83 F8 04 7D 47 48 8B D7 48 8B CB", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "WorldFrame_Intersect", "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", SignatureType::NORMAL, 0x0, 0x0 }
 };
 
 struct DescriptorStruct
