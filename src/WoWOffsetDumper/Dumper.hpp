@@ -72,7 +72,7 @@ static std::list<OffsetPattern> offsetPatterns
 	{ "InGameFlag", "48 83 EC 28 0F B6 15 ? ? ? ? C1 EA 02 83 E2 01", SignatureType::NORMAL, 0x7, 0x0 },
 	{ "IsLoadingOrConnecting", "48 81 EC A8 00 00 00 8B 05 ? ? ? ? FF C8", SignatureType::NORMAL, 0x9, 0x0 },
 	{ "RuneReady", "49 8B 47 20 85 18 0F 84 ? 00 00 00 0F B6 05 ? ? ? ? 85 C3 0F 87 ? 00 00 00", SignatureType::NORMAL, 0xF, 0x0 },
-	{ "TerrainSpellActive", "48 83 3D ? ? ? ? 00 75 ? 48 83 3D ? ? ? ? 00 0F 84 ? ? ? ? 48 8D 0D ? ? ? ? 48 89 7C 24 50", SignatureType::NORMAL, 0x1B, 0x0 }
+	{ "ActiveTerrainSpell", "48 83 3D ? ? ? ? 00 75 ? 48 83 3D ? ? ? ? 00 0F 84 ? ? ? ? 48 8D 0D ? ? ? ? 48 89 7C 24 50", SignatureType::NORMAL, 0x1B, 0x0 }
 	// Player name = 33 C0 48 8D 0D ? ? ? ? 38 05 ? ? ? ? 48 0F 45 C1 C3
 	// Matches two functions, one is unknown the other contain playername offset
 };
@@ -83,7 +83,8 @@ static std::list<OffsetPattern> funcPatterns
 	{ "FrameScript_ExecuteBuffer", "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 70 83 05 ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "FrameScript_GetLocalizedText", "0F B6 41 10 4C 8B DA 48 8D 15 ? ? ? ? 45 8B D0 44 8B 0C 82 41 C1 E9 07 41 F6 C1 01 74 ? 0F B6 81 C2 1A 00 00 EB", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "FrameScript_GetText", "40 55 57 41 54 41 56 41 57 48 83 EC 20 48 8D 6C 24 20 4C 8B F9 48 89 5D 38 8B 0D ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
-	//{ "PartyInfo_GetActiveParty", "48 8B 05 ? ? ? ? 48 85 C0 48 0F 44 05 ? ? ? ?", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "FrameTime_GetCurTimeMs", "8B F0 45 85 FF 75 ? E8 ? ? ? ? 44 8B F8 8B D6 8B CD 45 33 F6 E8 ? ? ? ? 48 85 C0 74 0C", SignatureType::ADD, 0x8, 0x4 },
+	{ "PartyInfo_GetActiveParty", "E8 ? ? ? ? 0F B6 4D 10 4C 8B F0 41 8B 14 8F C1 EA 07 F6 C2 01 74 ? 48 85 C0 74 ? 48 8D 96 80 00 00 00", SignatureType::ADD, 0x1, 0x4 },
 	{ "Party_FindMember", "40 53 48 83 EC 10 44 8B 91 78 01 00 00 33 C0 49 8B D8 4C 8B D9 45 85 D2 74 39 66 0F 1F 44 00 00", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "PetInfo_FindSpellById", "44 8B C9 48 8D 15 ? ? ? ? 45 33 C0 0F 1F 00 8B 02 8B C8 81 E1 00 00 00 3F 81 F9 00 00 00 01", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "PetInfo_SendPetAction", "4C 89 4C 24 20 48 89 4C 24 08 55 53 41 56 41 57 48 8D 6C 24 C8 48 81 EC 38 01 00 00 4C 8B F9 45 8B F0 B9 02 00 00 00 48 8B DA E8 ? ? ? ? 84 C0", SignatureType::NORMAL, 0x0, 0x0 },
@@ -98,8 +99,10 @@ static std::list<OffsetPattern> funcPatterns
 	{ "Spell_GetSomeSpellInfo", "E9 ? ? ? ? CC CC CC CC CC CC CC CC CC CC CC 48 83 EC 48 E8 ? ? ? ? 48 85 C0 74 ? 48 8B C8", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Spell_GetSpellCharges", "48 83 EC 40 44 0F B6 E2 4D 8B F1 33 D2 4D 8B F8 8B E9 E8 ? ? ? ? 33 DB 48 85 C0", SignatureType::NORMAL, -0x14, 0x0 },
 	{ "Spell_GetSpellCooldown", "48 83 EC 58 44 8B D1 C6 44 24 48 00 F7 DA 48 8D 05 ? ? ? ? 41 8B D2 48 1B C9 81 E1 B8 00 00", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Spell_GetSpellType", "E8 ? ? ? ? 48 85 C0 74 ? 48 8B C8 E8 ? ? ? ? 0F BE E8 8B 05 ? ? ? ? 8B CD 0B 05", SignatureType::ADD, 0xE, 0x4 },
 	{ "Spell_HandleTerrainClick", "40 53 48 83 EC 30 B2 01 48 8B D9 E8 ? ? 00 00 85 C0", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Spell_IsInRange", "4C 89 4C 24 20 57 41 56 41 57 48 81 EC 80 00 00 00 49 8B 40 08 4D 8B D0 48 C1 E8 3A 44 8B FA 4C 8B F1", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Spell_IsPlayerSpell", "41 F6 C0 01 74 ? 8B CA E8 ? ? ? ? 84 C0 75 ? 8B CB E8 ? ? ? ? 84 C0 74 ? B0 01 48 8B 5C 24 40", SignatureType::ADD, 0x9, 0x4 },
 	{ "Spell_IsSpellKnown", "48 89 5C 24 08 57 48 83 EC 30 0F B6 41 10 48 8B F9 48 8D 0D ? ? ? ? 8B DA 44 8B 04 81 41 C1 E8 07", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Spell_IsStealable", "48 89 5C 24 08 48 89 6C 24 10 56 57 41 54 41 56 41 57 48 83 EC 20 45 8B F0 48 8B FA 48 8B D9 E8", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_CanAttack", "48 89 5C 24 10 48 89 6C 24 18 56 57 41 56 48 83 EC 40 0F B6 41 10 4C 8D 35 ? ? ? ? BD 00 00 00 00", SignatureType::NORMAL, 0x0, 0x0 },
@@ -110,7 +113,8 @@ static std::list<OffsetPattern> funcPatterns
 	{ "Unit_GetPowerMax", "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 20 41 0F B6 F0 0F B6 FA 4C 8D 05 ? ? ? ? BA 20 00 00 00", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_Interact", "40 57 48 83 EC 20 48 8B F9 E8 ? ? ? ? 48 85 C0 75 0B", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_IsFriendly", "48 89 5C 24 08 57 48 83 EC 20 48 8B DA 48 8B F9 E8 ? ? ? ? 83 F8 04 7D ? 48 8B D7 48 8B CB", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "WorldFrame_Intersect", "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", SignatureType::NORMAL, 0x0, 0x0 }
+	//{ "WorldFrame_Intersect", "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "WorldFrame_Intersect", "C0 74 29 48 8B 48 10 48 85 C9 74 20 8B 44 24 60 89 44 24 28 4C 89 4C 24 20 4D 8B C8 4C 8B C2 49 8B D2 E8 ? ? ? ? 48 83 C4 38 C3", SignatureType::NORMAL, -0x50, 0x0 },
 };
 
 struct DescriptorStruct

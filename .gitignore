@@ -66,6 +66,7 @@ Thumbs.db
 /bin/
 _build
 build
+install
 
 # Generated files
 *.ncb

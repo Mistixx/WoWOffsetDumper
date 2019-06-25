@@ -15,7 +15,8 @@ enum SignatureType
 {
 	NORMAL = 0x0,
 	READ = 0x1,
-	SUBTRACT = 0x2
+	SUBTRACT = 0x2,
+	ADD = 0x4
 };
 
 class Process

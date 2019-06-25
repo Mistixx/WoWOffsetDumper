@@ -173,10 +173,18 @@ uintptr Process::FindPattern(const char* pattern, SignatureType type, uintptr pa
 			if (type & SignatureType::READ)
 				add = Read<int32>(add);
 
+			if (type & SignatureType::ADD)
+				add += Read<int32>(add);
+
 			if (type & SignatureType::SUBTRACT)
 				add -= base;
 
-			return add + addressOffset;
+			add += addressOffset;
+
+			if (add < start || add > start + size)
+				return 0;
+
+			return add;
 		}
 	}
 

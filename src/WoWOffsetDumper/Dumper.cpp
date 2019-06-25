@@ -26,6 +26,7 @@ void Dumper::Dump()
 	//std::cout << std::endl;
 
 	std::map<std::string, uintptr> offsets = GetOffsets();
+	std::map<std::string, uintptr> funcOffs = GetFunctionOffsets();
 
 	std::ofstream f("offsets.txt", std::ios::trunc);
 	f << "#pragma once" << std::endl << std::endl;
@@ -36,24 +37,6 @@ void Dumper::Dump()
 	{
 		f << "\t" << it.first << " = 0x" << std::hex << std::setfill('\0') << std::uppercase << it.second << "," << std::endl;
 	}
-	//f << "\tObjectMgrPtr = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ObjectMgrPtr"] << "," << std::endl;
-	//f << "\tNameCacheBase = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["NameCacheBase"] << "," << std::endl;
-	//f << "\tCooldownPtr = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["CooldownPtr"] << "," << std::endl;
-	//f << "\tLastHardwareAction = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["LastHardwareAction"] << "," << std::endl;
-	//f << "\tLocalPlayerGUID = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["LocalPlayerGUID"] << "," << std::endl;
-	//f << "\tCameraBase = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["CameraBase"] << "," << std::endl;
-	//f << "\tZoneID = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ZoneID"] << "," << std::endl;
-	//f << "\tIsTexting = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["IsTexting"] << "," << std::endl;
-	//f << "\tActionBarFirstSlot = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ActionBarFirstSlot"] << "," << std::endl;
-	//f << "\tMouseOverGUID = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["MouseOverGUID"] << "," << std::endl;
-	//f << "\tClickToMoveTrigger = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["ClickToMoveTrigger"] << "," << std::endl;
-	//f << "\tGameVersion = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameVersion"] << "," << std::endl;
-	//f << "\tGameBuild = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameBuild"] << "," << std::endl;
-	//f << "\tGameReleaseDate = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["GameReleaseDate"] << "," << std::endl;
-	//f << "\tInGameFlag = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["InGameFlag"] << "," << std::endl;
-	//f << "\tIsLoadingOrConnecting = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["IsLoadingOrConnecting"] << "," << std::endl;
-	//f << "\tRuneReady = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["RuneReady"] << "," << std::endl;
-	//f << "\tTerrainSpellActive = 0x" << std::hex << std::setfill('\0') << std::uppercase << offsets["TerrainSpellActive"] << "," << std::endl;
 
 	f << "};" << std::endl << std::endl;
 
@@ -64,25 +47,12 @@ void Dumper::Dump()
 
 	std::cout << std::endl;
 
-	std::map<std::string, uintptr> funcOffs = GetFunctionOffsets();
-
 	f << "enum class FunctionOffsets" << std::endl << "{" << std::endl;
 
 	for (auto it : funcOffs)
 	{
 		f << "\t"<< it.first <<" = 0x" << std::hex << std::setfill('\0') << std::uppercase << it.second << "," << std::endl;
 	}
-	//f << "\tMoveTo = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["MoveTo"] << "," << std::endl;
-	//f << "\tInteract = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Interact"] << "," << std::endl;
-	//f << "\tFrameScript_ExecuteBuffer = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_ExecuteBuffer"] << "," << std::endl;
-	//f << "\tFrameScript_GetLocalizedText = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_GetLocalizedText"] << "," << std::endl;
-	//f << "\tFrameScript_GetText = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["FrameScript_GetText"] << "," << std::endl;
-	//f << "\tSpell_GetSpellCooldown = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_GetSpellCooldown"] << "," << std::endl;
-	//f << "\tSpell_HandleTerrainClick = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_HandleTerrainClick"] << "," << std::endl;
-	//f << "\tSpell_CheckInRange = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Spell_CheckInRange"] << "," << std::endl;
-	//f << "\tUnit_IsFriendly = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Unit_IsFriendly"] << "," << std::endl;
-	//f << "\tUnit_GetAuraByIndex = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["Unit_GetAuraByIndex"] << "," << std::endl;
-	//f << "\tWorldFrame_Intersect = 0x" << std::hex << std::setfill('\0') << std::uppercase << funcOffs["WorldFrame_Intersect"] << "," << std::endl;
 
 	f << "};";
 
@@ -192,10 +162,15 @@ std::map<std::string, uintptr> Dumper::GetOffsets()
 	for (auto op : offsetPatterns)
 	{
 		uintptr base = m_Process->FindPattern(op.Pattern.c_str(), op.SigType, op.PatternOffset, op.AddressOffset);
-		uint32 rel = m_Process->Read<uint32>(base);
-		uintptr real = (base + rel + 4) - m_Process->GetBaseAddress();
+		if (base == 0)
+			ret[op.Variable] = base;
+		else
+		{
+			uint32 rel = m_Process->Read<uint32>(base);
+			uintptr real = (base + rel + 4) - m_Process->GetBaseAddress();
 
-		ret[op.Variable] = real;
+			ret[op.Variable] = real;
+		}
 	}
 
 	return ret;
@@ -208,10 +183,15 @@ std::map<std::string, uintptr> Dumper::GetFunctionOffsets()
 	for (auto op : funcPatterns)
 	{
 		uintptr base = m_Process->FindPattern(op.Pattern.c_str(), op.SigType, op.PatternOffset, op.AddressOffset);
-		//uint32 rel = m_Process->Read<uint32>(base);
-		uintptr real = base - m_Process->GetBaseAddress();
+		if (base == 0)
+			ret[op.Variable] = base;
+		else
+		{
+			//uint32 rel = m_Process->Read<uint32>(base);
+			uintptr real = base - m_Process->GetBaseAddress();
 
-		ret[op.Variable] = real;
+			ret[op.Variable] = real;
+		}
 	}
 
 	return ret;
