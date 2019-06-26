@@ -90,7 +90,7 @@ static std::list<OffsetPattern> funcPatterns
 	{ "PetInfo_SendPetAction", "4C 89 4C 24 20 48 89 4C 24 08 55 53 41 56 41 57 48 8D 6C 24 C8 48 81 EC 38 01 00 00 4C 8B F9 45 8B F0 B9 02 00 00 00 48 8B DA E8 ? ? ? ? 84 C0", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Specialization_IsTalentSelectedById", "3B 15 ? ? ? ? 44 8B C9 73 34 8B C2 48 8D 0D ? ? ? ? 48 C1 E0 06 48 03 C8 74 22 45 85 C0", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "SpellBook_CastSpell", "48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 41 56 48 83 EC 50 41 0F B6 F1 48 63 D9 49 8B E8 44", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "SpellBook_FindSlotBySpellId", "44 8B C1 85 C9 0F 84 ? 00 00 00 84 D2 74 ? 4C 8B 0D ? ? ? ? 33 D2 45 85 C9 74 ? 4C 8B 15", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "SpellBook_FindSlotBySpellId", "44 8B C1 85 C9 0F 84 ? 00 00 00 84 D2 74 ? ? 8B 0D ? ? ? ? 33 D2 45 85 C9 74 ? 4C 8B 15", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "SpellBook_FindSpellOverrideById", "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 54 41 55 41 56 41 57 48 83 EC 30 45 0F B6 F0", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "SpellBook_GetOverridenSpell", "48 89 5C 24 08 57 48 83 EC 20 48 63 F9 8B DA 85 D2 75 ? E8 ? ? ? ? 8B D8 85 C0 75 ? E8", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "SpellDB_GetRow", "40 53 48 83 EC 20 8B D9 85 C9 74 13 E8 ? ? ? ? 8B D0 8B CB 48 83 C4 20 5B E9 ? ? ? ? 33 C0", SignatureType::NORMAL, 0x0, 0x0 },
@@ -105,7 +105,7 @@ static std::list<OffsetPattern> funcPatterns
 	{ "Spell_IsPlayerSpell", "41 F6 C0 01 74 ? 8B CA E8 ? ? ? ? 84 C0 75 ? 8B CB E8 ? ? ? ? 84 C0 74 ? B0 01 48 8B 5C 24 40", SignatureType::ADD, 0x9, 0x4 },
 	{ "Spell_IsSpellKnown", "48 89 5C 24 08 57 48 83 EC 30 0F B6 41 10 48 8B F9 48 8D 0D ? ? ? ? 8B DA 44 8B 04 81 41 C1 E8 07", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Spell_IsStealable", "48 89 5C 24 08 48 89 6C 24 10 56 57 41 54 41 56 41 57 48 83 EC 20 45 8B F0 48 8B FA 48 8B D9 E8", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "Unit_CanAttack", "48 89 5C 24 10 48 89 6C 24 18 56 57 41 56 48 83 EC 40 0F B6 41 10 4C 8D 35 ? ? ? ? BD 00 00 00 00", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "Unit_CanAttack", "48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 20 0F B6 41 10 48 8B ? 48 8D 0D ? ? ? ? 48 ? ?", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_GetAuraByIndex", "44 8B 81 ? ? 00 00 48 81 C1 ? ? 00 00 41 83 F8 FF 75 ? 8B 01 EB ? 41 8B C0 3B D0 73 ? 8B C2 48 69 D0 ? 00 00 00 41 83 F8 FF 75 ? 48 8B 49 08", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_GetFacing", "48 8B 89 F0 00 00 00 F3 0F 10 49 30 E9", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_GetPosition", "40 53 48 83 EC 20 48 8B 89 F0 00 00 00 48 8B DA 4C 8D 41 20 E8 ? ? ? ? 48 8B C3 48 83 C4 20 5B C3", SignatureType::NORMAL, 0x0, 0x0 },
@@ -114,7 +114,7 @@ static std::list<OffsetPattern> funcPatterns
 	{ "Unit_Interact", "40 57 48 83 EC 20 48 8B F9 E8 ? ? ? ? 48 85 C0 75 0B", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_IsFriendly", "48 89 5C 24 08 57 48 83 EC 20 48 8B DA 48 8B F9 E8 ? ? ? ? 83 F8 04 7D ? 48 8B D7 48 8B CB", SignatureType::NORMAL, 0x0, 0x0 },
 	//{ "WorldFrame_Intersect", "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "WorldFrame_Intersect", "C0 74 29 48 8B 48 10 48 85 C9 74 20 8B 44 24 60 89 44 24 28 4C 89 4C 24 20 4D 8B C8 4C 8B C2 49 8B D2 E8 ? ? ? ? 48 83 C4 38 C3", SignatureType::NORMAL, -0x50, 0x0 },
+	{ "WorldFrame_Intersect", "F3 41 0F 10 08 F3 41 0F 10 50 04 F3 0F 5C 52 04 F3 0F 5C 0A F3 41 0F 10 40 08 F3 0F 5C 42 08 F3 0F 59 D2 F3 0F 59 C9 F3 0F 59 C0 F3 0F 58 D1 F3 0F 58 D0 0F 54 15 06 E0", SignatureType::NORMAL, 0x0, 0x0 },
 };
 
 struct DescriptorStruct
