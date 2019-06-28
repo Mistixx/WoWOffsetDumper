@@ -114,7 +114,8 @@ static std::list<OffsetPattern> funcPatterns
 	{ "Unit_Interact", "40 57 48 83 EC 20 48 8B F9 E8 ? ? ? ? 48 85 C0 75 0B", SignatureType::NORMAL, 0x0, 0x0 },
 	{ "Unit_IsFriendly", "48 89 5C 24 08 57 48 83 EC 20 48 8B DA 48 8B F9 E8 ? ? ? ? 83 F8 04 7D ? 48 8B D7 48 8B CB", SignatureType::NORMAL, 0x0, 0x0 },
 	//{ "WorldFrame_Intersect", "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", SignatureType::NORMAL, 0x0, 0x0 },
-	{ "WorldFrame_Intersect", "F3 41 0F 10 08 F3 41 0F 10 50 04 F3 0F 5C 52 04 F3 0F 5C 0A F3 41 0F 10 40 08 F3 0F 5C 42 08 F3 0F 59 D2 F3 0F 59 C9 F3 0F 59 C0 F3 0F 58 D1 F3 0F 58 D0 0F 54 15 06 E0", SignatureType::NORMAL, 0x0, 0x0 },
+	{ "WorldFrame_GetCurrent", "E8 ? ? ? ? 48 8B C8 E8 ? ? ? ? 48 8B D8 48 85 C0 74 18 0F", SignatureType::ADD, 0x1, 0x4 },
+	{ "WorldFrame_Intersect", "49 8B CC E8 ? ? ? ? 84 C0 75 ? F2 0F 10 44 24 50", SignatureType::ADD, 0x4, 0x4 },
 };
 
 struct DescriptorStruct
