@@ -13,17 +13,17 @@ Dumper::~Dumper()
 
 void Dumper::Dump()
 {
-	//std::list<DescriptorStruct> descOffsets = GetDescriptorOffsets();
+	std::list<DescriptorStruct> descOffsets = GetDescriptorOffsets();
 
-	//for (auto it : descOffsets)
-	//{
-	//	std::cout << "0x" << std::hex << std::setfill('\0') << std::uppercase << it.Offsets.front();
-	//	std::cout << " " << ReadString(Read<uint64>(it.Offsets.front()), 255, true) << std::endl;
-	//}
+	for (auto it : descOffsets)
+	{
+		std::cout << "0x" << std::hex << std::setfill('\0') << std::uppercase << it.Offsets.front();
+		std::cout << " " << ReadString(Read<uint64>(it.Offsets.front()), 255, true) << std::endl;
+	}
 
-	//DumpDescriptors(descOffsets);
+	DumpDescriptors(descOffsets);
 
-	//std::cout << std::endl;
+	std::cout << std::endl;
 
 	std::map<std::string, uintptr> offsets = GetOffsets();
 	std::map<std::string, uintptr> funcOffs = GetFunctionOffsets();
