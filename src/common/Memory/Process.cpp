@@ -10,7 +10,7 @@ Process::Process() :
 }
 
 Process::Process(uint32 processId, uint32 desiredAccess) :
-	m_ProcessName("")
+	m_ProcessName("Wow.exe")
 {
 	m_Process = OpenProcess(desiredAccess, false, processId);
 }
