@@ -140,8 +140,8 @@ public:
 			for (uintptr_t a : offsets)
 			{
 				uint32_t b = clepta::memory::read<uint32_t>(process.state(), addr + a);
-				uintptr_t c = (a + b) + (!dynamic ? 4 : -4);
-				uintptr_t d = c;// -m_Process->GetBaseAddress();
+				uintptr_t c = (addr + a + b) + (!dynamic ? 4 : -4);
+				uintptr_t d = c - process->base_address;
 
 				realList.push_back(d);
 			}
@@ -160,7 +160,7 @@ public:
 		for (auto it : descriptor_results)
 		{
 			std::cout << "0x" << std::hex << std::setfill('\0') << std::uppercase << it.offsets.front();
-			std::cout << " " << clepta::memory::read<std::string, true>(process.state(), clepta::memory::read<uint64_t, true>(process.state(), it.offsets.front()), 255) << std::endl;
+			std::cout << " " << clepta::memory::read<std::string>(process.state(), clepta::memory::read<uint64_t, true>(process.state(), it.offsets.front()), 255) << std::endl;
 		}
 	}
 
