@@ -4,8 +4,10 @@
 #include "clepta/clepta.hpp"
 
 #include <cinttypes>
+#include <fstream>
 #include <iostream>
 #include <map>
+#include <regex>
 #include <string>
 #include <vector>
 
@@ -46,6 +48,21 @@ std::map<std::string, std::string> base_descriptors
 	{ "CGSceneObjectData",			"CGObjectDataEnd" },
 };
 
+std::map<uint64_t, std::string> mirror_flags
+{
+	{ 0x0, "MIRROR_NONE" },
+	{ 0x1, "MIRROR_ALL" },
+	{ 0x2, "MIRROR_SELF" },
+	{ 0x4, "MIRROR_OWNER" },
+	{ 0x8, "MIRROR_UNK1" },
+	{ 0x10, "MIRROR_EMPATH" },
+	{ 0x20, "MIRROR_PARTY" },
+	{ 0x40, "MIRROR_UNIT_ALL" },
+	{ 0x80, "MIRROR_VIEWER_DEPENDENT" },
+	{ 0x100, "MIRROR_URGENT" },
+	{ 0x200, "MIRROR_URGENT_SELF_ONLY" },
+};
+
 class descriptor_dumper
 {
 public:
@@ -62,6 +79,95 @@ public:
 	{
 		get_init_funcs();
 		get_descriptor_offsets();
+
+
+		std::ofstream f("descriptors.txt", std::ios::trunc);
+
+		f << "#pragma once" << std::endl << std::endl;
+		f << "#include \"Define.hpp\"" << std::endl << std::endl;
+
+		f << "const uint32 DescriptorMulti = 0x4;" << std::endl;
+		f << "const uint32 DescriptorOffset = 0x10;" << std::endl << std::endl;
+
+		for (auto addrList : descriptor_results)
+		{
+			int64_t i = 0;
+			std::string currentPrefix;
+			bool isDynamic = addrList.dynamic;
+
+			for (auto addr : addrList.offsets)
+			{
+				descriptor d;
+
+				if (isDynamic)
+				{
+					d.name = clepta::memory::read<uint64_t, true>(process.state(), addr);
+					d.size = clepta::memory::read<uint32_t, true>(process.state(), addr + 0x8);
+					d.flags = clepta::memory::read<uint32_t, true>(process.state(), addr + 0xC);
+				}
+				else
+					d = clepta::memory::read<descriptor, true>(process.state(), addr);
+
+				std::string n = clepta::memory::read<std::string>(process.state(), d.name, 255);
+
+				if (n.empty())
+					return;
+
+				if (currentPrefix.empty())
+				{
+					std::smatch m;
+					std::regex re("[a-zA-Z]+(?=::)");
+					std::regex_search(n, m, re);
+					currentPrefix = m.str();
+
+					f << "enum " << currentPrefix << std::endl;
+					f << "{" << std::endl;
+				}
+
+				std::string memberName;
+
+				{
+					std::smatch match;
+					// Don't have lookbehind in C++, cba to improve this
+					std::regex re("([:]{2})([0-9a-zA-Z_.]+)");
+					std::regex_search(n, match, re);
+					memberName = match[2].str();
+				}
+
+				if (memberName.rfind("m_", 0) == 0)
+					memberName.erase(0, 2);
+
+				if (memberName.rfind("local.", 0) == 0)
+					memberName.erase(0, 6);
+
+				if (!memberName.empty() && std::islower(memberName.front(), std::locale()))
+					memberName[0] = std::toupper(memberName[0], std::locale());
+
+				if (!base_descriptors[currentPrefix].empty())
+					f << "	" << currentPrefix << "_" << memberName << " = " << base_descriptors[currentPrefix] << " + " << i << ", // size " << d.size << " flags: " << mirror_flags[d.flags] << std::endl;
+				else
+					f << "	" << currentPrefix << "_" << memberName << " = " << i << ", // size " << d.size << std::endl;
+
+				if (isDynamic)
+					i += 1;
+				else
+					i += d.size;
+			}
+
+			if (!currentPrefix.empty())
+			{
+				if (!base_descriptors[currentPrefix].empty())
+					f << "	" << currentPrefix << "End = " << base_descriptors[currentPrefix] << " + " << i << std::endl;
+				else
+					f << "	" << currentPrefix << "End = " << i << std::endl;
+
+				f << "};" << std::endl;
+			}
+
+			currentPrefix.clear();
+
+			f << std::endl;
+		}
 
 		write_results();
 	}
@@ -112,7 +218,7 @@ public:
 			clepta::pattern_search_result offsets;
 
 			std::vector<uint8_t> bytes;
-			bytes.resize(4000);
+			bytes.resize(0x4000);
 			clepta::memory::read(process.state(), addr, bytes.size(), &bytes[0]);
 
 			auto dynamic = clepta::pattern("33 C9 48 8D 05 ? ? ? ?", clepta::pattern::normal, 0x5).search(bytes.data(), 100);
