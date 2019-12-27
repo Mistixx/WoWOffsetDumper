@@ -6,11 +6,11 @@ Process::Process() :
 	m_Process = GetCurrentProcess();
 	// HACK
 	// Need to implement so if name == "" then get current procName
-	m_BaseAddress = GetModuleAddress("Wow.exe");
+	m_BaseAddress = GetModuleAddress("WowClassic.exe");
 }
 
 Process::Process(uint32 processId, uint32 desiredAccess) :
-	m_ProcessName("Wow.exe")
+	m_ProcessName("WowClassic.exe")
 {
 	m_Process = OpenProcess(desiredAccess, false, processId);
 }

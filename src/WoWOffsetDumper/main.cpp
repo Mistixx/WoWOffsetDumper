@@ -43,6 +43,10 @@ int main()
 	ProcessPtr process;
 
 	auto processes = EnumProcesses("Wow.exe");
+	auto classic_processes = EnumProcesses("WowClassic.exe");
+	for (auto p : classic_processes)
+		processes.push_back(p);
+
 	if (processes.size() > 1)
 	{
 		int selected = 0;
