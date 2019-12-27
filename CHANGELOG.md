@@ -1,5 +1,12 @@
 ## Change Log
 
+# 2019-12-27
+
+* Reworked with new memory library.
+* Now easy to dump offsets from both retail and classic wow, aswell as other games if one would want to.
+* Can now use multiple threads to speed-up the scan. More threads require more memory.
+* Switched to MSVC generator instead of Ninja to make it easier for noobs to build.
+
 # 2018-08-14
 
 * [Moved functions to new class 'Dumper'.](https://gitlab.com/ejt/WoWOffsetDumper/commit/640c8d9b0f06018e16880196f76218d3c23495b8)

@@ -1,2 +1,2 @@
-add_subdirectory(common)
+add_subdirectory(clepta)
 add_subdirectory(WoWOffsetDumper)
