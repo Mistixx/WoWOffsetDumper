@@ -18,7 +18,6 @@ dump_info classic_patterns
 	{
 		{ "ActiveTerrainSpell", { "48 83 3D ? ? ? ? 00 75 ? 48 83 3D ? ? ? ? 00 0F 84 ? ? ? ? 48 8D 0D ? ? ? ? 48 89 7C 24 50", clepta::pattern::deference, 0x1B } },
 		{ "ObjectMgrPtr", { "4C 8B 05 ? ? ? ? 48 8B F2 48 8B", clepta::pattern::deference, 0x3 } },
-		//{ "NameCacheBase", "? ? ? ? BA 10 00 00 00 48 83 C8 01 48 8D 0D ? ? ? ? 48 89 05 ? ? ? ? E8 ? ? ? ? 33 C9 C7 05 ? ? ? ? FF FF FF FF", clepta::pattern::deference },
 		//{ "CooldownPtr", "48 8D 05 ? ? ? ? 48  83 C8 01 48 8D 0D ? ? ? ? 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48 8D 05 ? ? ? ? 48 83 C8 01 48 89 05 ? ? ? ? 48", clepta::pattern::deference, 0x3 },
 		{ "LastHardwareAction", { "BA 00 20 00 00 8B 35 ? ? ? ? 48 8B CF 44 8B C6", clepta::pattern::deference, 0x7 } },
 		//{ "LocalPlayerGUID", "48 8D 05 ? ? ? ? 41 B8 03 00 00 00 0F 1F 00", clepta::pattern::deference, 0x3 },
@@ -35,8 +34,12 @@ dump_info classic_patterns
 		{ "InGameFlag", { "48 83 EC 28 0F B6 15 ? ? ? ? C1 EA 02 83 E2 01", clepta::pattern::deference, 0x7 } },
 		{ "IsLoadingOrConnecting", { "48 81 EC A8 00 00 00 8B 05 ? ? ? ? FF C8", clepta::pattern::deference, 0x9 } },
 		{ "RuneReady", { "49 8B 47 20 85 18 0F 84 ? 00 00 00 0F B6 05 ? ? ? ? 85 C3 0F 87 ? 00 00 00", clepta::pattern::deference, 0xF } },
-		// Player name = 33 C0 48 8D 0D ? ? ? ? 38 05 ? ? ? ? 48 0F 45 C1 C3
-		// Matches two functions, one is unknown the other contain playername offset
+
+		// NoxiaZ
+		{ "CorpsePosition", { "49 8B F8 48 8D 0D ? ? ? ? 48 8B DA E8 ? ? ? ?", clepta::pattern::deference, 0x6 } },
+		{ "NameCacheBase",{ "48 8D 3D ? ? ? ? 48 8B DF 48 8D 0D ? ? ? ? 48 83 CB 01 48 89 1D ? ? ? ? E8 ? ? ? ? 33 C9 48 89 1D ? ? ? ?", clepta::pattern::deference, 0x3  } },
+		{ "SpellBook",  { "4C 8B 0D ? ? ? ? 0F 1F 44 00 ? 8B C2 49 8B 0C C1 8B 41 04 3B D8 75 05 83 39 01 74 5A 83 39 03", clepta::pattern::deference, 0x3 } },
+		{ "RedMessage",  { "48 8D 15 ? ? ? ? 41 B8 ? ? ? ? 48 8D 8D ? ? ? ? 90 0F B6 01", clepta::pattern::deference, 0x3 } },
 	},
 	{
 		{ "CheckSpellAttribute", "40 53 48 83 EC 20 41 8B D8 48 85 C9 74 14 48 63 D2 E8 ? ? ? ? 85 C3 74 08 B0 01 48 83 C4 20" },
@@ -77,7 +80,6 @@ dump_info classic_patterns
 		{ "Unit_GetPowerMax", { "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 20 41 0F B6 F0 0F B6 FA 4C 8D 05 ? ? ? ? BA 20 00 00 00", clepta::pattern::normal } },
 		{ "Unit_Interact", { "40 57 48 83 EC 20 48 8B F9 E8 ? ? ? ? 48 85 C0 75 0B", clepta::pattern::normal } },
 		{ "Unit_IsFriendly", { "48 89 5C 24 08 57 48 83 EC 20 48 8B DA 48 8B F9 E8 ? ? ? ? 83 F8 04 7D ? 48 8B D7 48 8B CB", clepta::pattern::normal } },
-		//{ "WorldFrame_Intersect", "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", clepta::pattern::normal },
 		{ "WorldFrame_Intersect", { "48 83 EC 38 F3 0F 10 0A 4C 8B D1 F3 0F 10 52 04 F3 0F 5C 51 04 F3 0F 5C 09 F3 0F 10 42 08 F3 0F", clepta::pattern::normal } }
 	}
 };
