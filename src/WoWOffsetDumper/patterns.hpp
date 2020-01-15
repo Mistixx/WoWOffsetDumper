@@ -103,7 +103,7 @@ dump_info retail_patterns
 		{ "GameBuild", { "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8", clepta::pattern::deference, 0x18 } },
 		{ "GameReleaseDate", { "40 53 48 83 EC 20 48 8D 15 ? ? ? ? 48 8B D9 E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CB E8 ? ? ? ? 48 8D 15 ? ? ? ?", clepta::pattern::deference, 0x27 } },
 		{ "InGameFlag", { "0F B6 05 ? ? ? ? C0 E8 06 24 01 C3", clepta::pattern::deference, 0x3 } },
-		{ "IsLoadingOrConnecting", { "48 81 EC A8 00 00 00 8B 05 ? ? ? ? FF C8", clepta::pattern::deference, 0x9 } },
+		{ "IsLoadingOrConnecting", { "83 3D ? ? ? ? ? 7E 10", clepta::pattern::deference, 0x3 } },
 		{ "RuneReady", { "49 8B 47 20 85 18 0F 84 ? 00 00 00 0F B6 05 ? ? ? ? 85 C3 0F 87 ? 00 00 00", clepta::pattern::deference, 0xF } },
 		// Player name = 33 C0 48 8D 0D ? ? ? ? 38 05 ? ? ? ? 48 0F 45 C1 C3
 		// Matches two functions, one is unknown the other contain playername offset
