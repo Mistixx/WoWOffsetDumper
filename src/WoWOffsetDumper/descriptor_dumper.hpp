@@ -24,6 +24,30 @@ struct descriptor_result
 	bool dynamic;
 };
 
+std::vector<std::string> descriptor_names
+{
+	"CGObjectData",
+	"CGItemData",
+	"CGContainerData",
+	"CGAzeriteEmpoweredItemData",
+	"CGAzeriteItemData",
+	"CGUnitData",
+	"CGPlayerData",
+	"CGActivePlayerData",
+	"CGGameObjectData",
+	"CGDynamicObjectData",
+	"CGCorpseData",
+	"CGAreaTriggerData",
+	"CGSceneObjectData",
+	"CGConversationData",
+	"CGItemDynamicData",
+	"CGUnitDynamicData",
+	"CGPlayerDynamicData",
+	"CGActivePlayerDynamicData",
+	"CGGameObjectDynamicData",
+	"CGConversationDynamicData",
+};
+
 std::map<std::string, std::string> base_descriptors
 {
 	{ "CGObjectData",				"" },
@@ -80,7 +104,6 @@ public:
 		get_init_funcs();
 		get_descriptor_offsets();
 
-
 		std::ofstream f("descriptors.txt", std::ios::trunc);
 
 		f << "#pragma once" << std::endl << std::endl;
@@ -89,11 +112,14 @@ public:
 		f << "const uint32 DescriptorMulti = 0x4;" << std::endl;
 		f << "const uint32 DescriptorOffset = 0x10;" << std::endl << std::endl;
 
+		int desc_count = 0;
 		for (auto addrList : descriptor_results)
 		{
 			int64_t i = 0;
-			std::string currentPrefix;
 			bool isDynamic = addrList.dynamic;
+
+			f << "enum " << descriptor_names[desc_count] << std::endl;
+			f << "{" << std::endl;
 
 			for (auto addr : addrList.offsets)
 			{
@@ -113,40 +139,40 @@ public:
 				if (n.empty())
 					return;
 
-				if (currentPrefix.empty())
-				{
-					std::smatch m;
-					std::regex re("[a-zA-Z]+(?=::)");
-					std::regex_search(n, m, re);
-					currentPrefix = m.str();
+				//if (currentPrefix.empty())
+				//{
+				//	std::smatch m;
+				//	std::regex re("[a-zA-Z]+(?=::)");
+				//	std::regex_search(n, m, re);
+				//	currentPrefix = m.str();
 
-					f << "enum " << currentPrefix << std::endl;
-					f << "{" << std::endl;
-				}
+					//f << "enum " << descriptor_names[desc_count] << std::endl;
+					//f << "{" << std::endl;
+				//}
 
-				std::string memberName;
+				//std::string memberName;
 
-				{
-					std::smatch match;
-					// Don't have lookbehind in C++, cba to improve this
-					std::regex re("([:]{2})([0-9a-zA-Z_.]+)");
-					std::regex_search(n, match, re);
-					memberName = match[2].str();
-				}
+				//{
+				//	std::smatch match;
+				//	// Don't have lookbehind in C++, cba to improve this
+				//	std::regex re("([:]{2})([0-9a-zA-Z_.]+)");
+				//	std::regex_search(n, match, re);
+				//	memberName = match[2].str();
+				//}
 
-				if (memberName.rfind("m_", 0) == 0)
-					memberName.erase(0, 2);
+				//if (memberName.rfind("m_", 0) == 0)
+				//	memberName.erase(0, 2);
 
-				if (memberName.rfind("local.", 0) == 0)
-					memberName.erase(0, 6);
+				//if (memberName.rfind("local.", 0) == 0)
+				//	memberName.erase(0, 6);
 
-				if (!memberName.empty() && std::islower(memberName.front(), std::locale()))
-					memberName[0] = std::toupper(memberName[0], std::locale());
+				//if (!memberName.empty() && std::islower(memberName.front(), std::locale()))
+				//	memberName[0] = std::toupper(memberName[0], std::locale());
 
-				if (!base_descriptors[currentPrefix].empty())
-					f << "	" << currentPrefix << "_" << memberName << " = " << base_descriptors[currentPrefix] << " + " << i << ", // size " << d.size << " flags: " << mirror_flags[d.flags] << std::endl;
+				if (!base_descriptors[descriptor_names[desc_count]].empty())
+					f << "	" << descriptor_names[desc_count] << "_" << n << " = " << base_descriptors[descriptor_names[desc_count]] << " + " << i << ", // size " << d.size << " flags: " << mirror_flags[d.flags] << std::endl;
 				else
-					f << "	" << currentPrefix << "_" << memberName << " = " << i << ", // size " << d.size << std::endl;
+					f << "	" << descriptor_names[desc_count] << "_" << n << " = " << i << ", // size " << d.size << std::endl;
 
 				if (isDynamic)
 					i += 1;
@@ -154,19 +180,16 @@ public:
 					i += d.size;
 			}
 
-			if (!currentPrefix.empty())
-			{
-				if (!base_descriptors[currentPrefix].empty())
-					f << "	" << currentPrefix << "End = " << base_descriptors[currentPrefix] << " + " << i << std::endl;
-				else
-					f << "	" << currentPrefix << "End = " << i << std::endl;
+			if (!base_descriptors[descriptor_names[desc_count]].empty())
+				f << "	" << descriptor_names[desc_count] << "End = " << base_descriptors[descriptor_names[desc_count]] << " + " << i << std::endl;
+			else
+				f << "	" << descriptor_names[desc_count] << "End = " << i << std::endl;
 
-				f << "};" << std::endl;
-			}
-
-			currentPrefix.clear();
+			f << "};" << std::endl;
 
 			f << std::endl;
+
+			desc_count++;
 		}
 
 		write_results();
